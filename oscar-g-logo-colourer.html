@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Oscar G Logo Colourer</title>
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{
+    margin:0;padding:0;height:100%;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:#e9e9ec;
+    overscroll-behavior:none;
+  }
+  .app{
+    display:flex;
+    flex-direction:column;
+    height:100%;
+    max-width:900px;
+    margin:0 auto;
+  }
+  .stage-wrap{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:16px;
+    min-height:0;
+    overflow:hidden;
+  }
+  #stage{
+    width:100%;
+    max-width:640px;
+    aspect-ratio:2860/2421;
+    border-radius:14px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.15);
+    overflow:hidden;
+    position:relative;
+    background:#ffffff;
+    transition:background 0.15s ease;
+  }
+  #stage svg{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    display:block;
+  }
+  .controls{
+    background:#fff;
+    padding:14px 20px calc(14px + env(safe-area-inset-bottom));
+    border-top:1px solid #ddd;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    max-height:55vh;
+    overflow-y:auto;
+  }
+  .control-block{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .control-label{
+    font-size:13px;
+    font-weight:700;
+    color:#555;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    display:flex;
+    justify-content:space-between;
+  }
+  .control-label span.val{
+    color:#007aff;
+    font-weight:700;
+  }
+  .row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .swatches{
+    display:flex;
+    gap:8px;
+    flex:1;
+    flex-wrap:wrap;
+  }
+  .swatch{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    border:2px solid rgba(0,0,0,0.12);
+    flex-shrink:0;
+    padding:0;
+  }
+  .swatch.selected{
+    border:3px solid #007aff;
+    transform:scale(1.1);
+  }
+  .color-input{
+    -webkit-appearance:none;
+    appearance:none;
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:50%;
+    padding:0;
+    background:none;
+    flex-shrink:0;
+  }
+  .color-input::-webkit-color-swatch-wrapper{padding:0;}
+  .color-input::-webkit-color-swatch{border-radius:50%;border:2px solid rgba(0,0,0,0.12);}
+  input[type="range"]{
+    width:100%;
+    height:36px;
+    -webkit-appearance:none;
+    appearance:none;
+    background:transparent;
+  }
+  input[type="range"]::-webkit-slider-runnable-track{
+    height:6px;
+    border-radius:3px;
+    background:#ddd;
+  }
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    appearance:none;
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    background:#007aff;
+    margin-top:-11px;
+    box-shadow:0 1px 4px rgba(0,0,0,0.3);
+  }
+  #saveBtn{
+    width:100%;
+    padding:16px;
+    font-size:18px;
+    font-weight:700;
+    color:#fff;
+    background:#007aff;
+    border:none;
+    border-radius:12px;
+  }
+  #saveBtn:active{background:#005ecb;}
+  #hint{
+    text-align:center;
+    font-size:13px;
+    color:#777;
+    min-height:16px;
+  }
+  #outputWrap{display:none;text-align:center;}
+  #outputWrap.show{display:block;}
+  #outputImg{
+    max-width:100%;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.15);
+  }
+  #closeOutput{
+    margin-top:10px;
+    padding:10px 18px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    background:#f4f4f4;
+    font-weight:600;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="stage-wrap">
+    <div id="stage">
+      <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg id="logoSvg" width="100%" height="100%" viewBox="323 29 2860 2421" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1.2881,0,0,1.2881,484.391,231.666)">
+        <g>
+            <g transform="matrix(4.09853,0,0,4.13042,22.4374,-76.2003)">
+                <path id="branch" d="M121,336C102,320 99,297 91,277C86,264 77,253 68,242C80,276 73,300 102,324C97,322 92,318 88,315C65,296 31,293 17,262C21,285 39,305 58,318C77,330 101,329 121,336M171,348C174,347 178,347 182,346C168,344 155,339 145,330C130,316 117,302 101,291C118,325 124,339 152,345C152,345 144,344 140,343C110,337 74,345 52,320C61,336 78,349 94,355C120,363 147,354 171,348M211,346C163,346 138,388 91,360C114,388 151,390 181,371C193,363 204,352 219,352C242,352 267,376 288,398C292,395 295,392 298,389C276,368 244,346 211,346M76,299C76,299 70,288 68,281C61,254 65,221 53,195C55,210 49,223 48,237C46,256 53,269 58,278C58,278 51,269 48,264C34,242 5,227 3,200C-1,259 40,275 76,299M62,124C66,116 68,106 70,97C68,101 66,105 63,108C44,124 33,133 28,158L30,136C32,114 20,90 33,71C20,85 13,103 13,121C13,145 27,162 28,185C32,161 52,144 62,124M55,80C64,72 75,65 83,55C92,43 100,29 112,18C96,25 78,31 67,48C61,58 60,70 55,80M35,128C39,120 46,112 53,106C71,93 89,76 90,54C80,78 49,82 42,107C42,107 46,92 47,89C52,72 51,52 68,41C35,48 33,84 35,111C35,117 36,122 35,128M40,244C40,244 38,225 41,217C49,193 57,167 56,142C48,172 23,182 34,223C30,215 29,206 26,198C20,176 3,157 8,131C0,154 0,172 8,196C13,214 31,227 40,244" style="fill-rule:nonzero;"/>
+                <clipPath id="_clip1">
+                    <path id="branch1" serif:id="branch" d="M121,336C102,320 99,297 91,277C86,264 77,253 68,242C80,276 73,300 102,324C97,322 92,318 88,315C65,296 31,293 17,262C21,285 39,305 58,318C77,330 101,329 121,336M171,348C174,347 178,347 182,346C168,344 155,339 145,330C130,316 117,302 101,291C118,325 124,339 152,345C152,345 144,344 140,343C110,337 74,345 52,320C61,336 78,349 94,355C120,363 147,354 171,348M211,346C163,346 138,388 91,360C114,388 151,390 181,371C193,363 204,352 219,352C242,352 267,376 288,398C292,395 295,392 298,389C276,368 244,346 211,346M76,299C76,299 70,288 68,281C61,254 65,221 53,195C55,210 49,223 48,237C46,256 53,269 58,278C58,278 51,269 48,264C34,242 5,227 3,200C-1,259 40,275 76,299M62,124C66,116 68,106 70,97C68,101 66,105 63,108C44,124 33,133 28,158L30,136C32,114 20,90 33,71C20,85 13,103 13,121C13,145 27,162 28,185C32,161 52,144 62,124M55,80C64,72 75,65 83,55C92,43 100,29 112,18C96,25 78,31 67,48C61,58 60,70 55,80M35,128C39,120 46,112 53,106C71,93 89,76 90,54C80,78 49,82 42,107C42,107 46,92 47,89C52,72 51,52 68,41C35,48 33,84 35,111C35,117 36,122 35,128M40,244C40,244 38,225 41,217C49,193 57,167 56,142C48,172 23,182 34,223C30,215 29,206 26,198C20,176 3,157 8,131C0,154 0,172 8,196C13,214 31,227 40,244" clip-rule="nonzero"/>
+                </clipPath>
+                <g clip-path="url(#_clip1)">
+                    <g transform="matrix(0.24399,0,0,0.242106,-7.52592,16.6149)">
+                        <path d="M994,1375.53C981.667,1379.2 969.45,1383.46 957.381,1388.24C947.661,1386.3 938,1385.28 928.424,1385.28C866.946,1385.28 821.862,1430.71 772.679,1463.76C649.723,1542.24 498.078,1533.98 403.812,1418.32C596.442,1533.98 698.906,1360.5 895.635,1360.5C928.853,1360.5 961.823,1365.98 994,1375.53Z"/>
+                    </g>
+                    <g transform="matrix(0.24399,0,0,0.242106,-7.52592,16.6149)">
+                        <path d="M994,1399.51C1006.26,1394.48 1018.49,1390.65 1030.62,1388.24C1115.27,1421.76 1192.67,1480.84 1252.21,1538.11C1239.91,1550.5 1227.62,1562.89 1211.22,1575.28C1144.81,1505.16 1068.64,1430.13 994,1399.51Z"/>
+                    </g>
+                    <g transform="matrix(0.24399,0,0,0.242106,-7.52592,16.6149)">
+                        <path d="M256.264,261.807C276.757,220.503 280.856,170.938 305.447,129.633C350.531,59.416 424.304,34.634 489.881,5.721C440.698,51.155 407.91,108.981 371.023,158.546C338.235,199.85 293.151,228.763 256.264,261.807Z"/>
+                    </g>
+                    <g transform="matrix(0.24399,0,0,0.242106,-7.52592,16.6149)">
+                        <path d="M174.294,460.067C178.392,435.284 174.294,414.632 174.294,389.85C166.097,278.328 174.294,129.633 309.545,100.72C239.87,146.155 243.969,228.763 223.476,298.98C219.378,311.372 202.984,373.328 202.984,373.328C231.673,270.068 358.728,253.546 399.713,154.416C395.614,245.285 321.841,315.502 248.067,369.198C219.378,393.98 190.688,427.023 174.294,460.067Z"/>
+                    </g>
+                    <g transform="matrix(0.24399,0,0,0.242106,-7.52592,16.6149)">
+                        <path d="M284.954,443.545C243.969,526.153 161.998,596.37 145.604,695.5C141.506,600.501 84.126,530.284 84.126,431.154C84.126,356.806 112.816,282.459 166.097,224.633C112.816,303.111 161.998,402.241 153.801,493.11L145.604,583.979C166.097,480.719 211.181,443.545 289.053,377.458C301.348,365.067 309.545,348.545 317.742,332.024C309.545,369.198 301.348,410.502 284.954,443.545Z"/>
+                    </g>
+                    <g transform="matrix(0.24399,0,0,0.242106,-7.52592,16.6149)">
+                        <path d="M194.786,939.195C157.9,868.978 84.126,815.282 63.633,740.935C30.845,641.805 30.845,567.458 63.633,472.458C43.141,579.849 112.816,658.327 137.407,749.196C149.703,782.239 153.801,819.413 170.195,852.456C125.111,683.109 227.575,641.805 260.363,517.893C264.461,621.153 231.673,728.544 198.885,827.674C186.589,860.717 194.786,939.195 194.786,939.195Z"/>
+                    </g>
+                    <g transform="matrix(0.24399,0,0,0.242106,-7.52592,16.6149)">
+                        <path d="M342.334,1166.37C194.786,1067.24 26.747,1001.15 43.141,757.457C51.338,868.978 170.195,930.934 227.575,1021.8C239.87,1042.45 268.56,1079.63 268.56,1079.63C248.067,1042.45 219.378,988.76 227.575,910.282C231.673,852.456 256.264,798.761 248.067,736.805C297.25,844.195 280.856,980.499 309.545,1092.02C317.742,1120.93 342.334,1166.37 342.334,1166.37Z"/>
+                    </g>
+                    <g transform="matrix(0.24399,0,0,0.242106,-7.52592,16.6149)">
+                        <path d="M526.767,1319.19C444.797,1290.28 346.432,1294.41 268.56,1244.85C190.688,1191.15 116.914,1108.54 100.52,1013.54C157.9,1141.59 297.25,1153.98 391.516,1232.45C407.91,1244.85 428.403,1261.37 448.895,1269.63C330.038,1170.5 358.728,1071.37 309.545,930.934C346.432,976.369 383.319,1021.8 403.812,1075.5C436.6,1158.11 448.895,1253.11 526.767,1319.19Z"/>
+                    </g>
+                    <g transform="matrix(0.24399,0,0,0.242106,-7.52592,16.6149)">
+                        <path d="M731.694,1368.76C633.329,1393.54 522.669,1430.71 416.107,1397.67C350.531,1372.89 280.856,1319.19 243.969,1253.11C334.137,1356.37 481.684,1323.32 604.64,1348.11C621.034,1352.24 653.822,1356.37 653.822,1356.37C539.063,1331.59 514.472,1273.76 444.797,1133.33C510.373,1178.76 563.654,1236.59 625.132,1294.41C666.118,1331.59 719.398,1352.24 776.778,1360.5C760.384,1364.63 743.99,1364.63 731.694,1368.76Z"/>
+                    </g>
+                </g>
+                <g id="branch2" serif:id="branch" transform="matrix(-1,0,0,1,470,0)">
+                    <path d="M121,336C102,320 99,297 91,277C86,264 77,253 68,242C80,276 73,300 102,324C97,322 92,318 88,315C65,296 31,293 17,262C21,285 39,305 58,318C77,330 101,329 121,336M171,348C174,347 178,347 182,346C168,344 155,339 145,330C130,316 117,302 101,291C118,325 124,339 152,345C152,345 144,344 140,343C110,337 74,345 52,320C61,336 78,349 94,355C120,363 147,354 171,348M211,346C163,346 138,388 91,360C114,388 151,390 181,371C193,363 204,352 219,352C242,352 267,376 288,398C292,395 295,392 298,389C276,368 244,346 211,346M76,299C76,299 70,288 68,281C61,254 65,221 53,195C55,210 49,223 48,237C46,256 53,269 58,278C58,278 51,269 48,264C34,242 5,227 3,200C-1,259 40,275 76,299M62,124C66,116 68,106 70,97C68,101 66,105 63,108C44,124 33,133 28,158L30,136C32,114 20,90 33,71C20,85 13,103 13,121C13,145 27,162 28,185C32,161 52,144 62,124M55,80C64,72 75,65 83,55C92,43 100,29 112,18C96,25 78,31 67,48C61,58 60,70 55,80M35,128C39,120 46,112 53,106C71,93 89,76 90,54C80,78 49,82 42,107C42,107 46,92 47,89C52,72 51,52 68,41C35,48 33,84 35,111C35,117 36,122 35,128M40,244C40,244 38,225 41,217C49,193 57,167 56,142C48,172 23,182 34,223C30,215 29,206 26,198C20,176 3,157 8,131C0,154 0,172 8,196C13,214 31,227 40,244" style="fill-rule:nonzero;"/>
+                    <clipPath id="_clip2">
+                        <path d="M121,336C102,320 99,297 91,277C86,264 77,253 68,242C80,276 73,300 102,324C97,322 92,318 88,315C65,296 31,293 17,262C21,285 39,305 58,318C77,330 101,329 121,336M171,348C174,347 178,347 182,346C168,344 155,339 145,330C130,316 117,302 101,291C118,325 124,339 152,345C152,345 144,344 140,343C110,337 74,345 52,320C61,336 78,349 94,355C120,363 147,354 171,348M211,346C163,346 138,388 91,360C114,388 151,390 181,371C193,363 204,352 219,352C242,352 267,376 288,398C292,395 295,392 298,389C276,368 244,346 211,346M76,299C76,299 70,288 68,281C61,254 65,221 53,195C55,210 49,223 48,237C46,256 53,269 58,278C58,278 51,269 48,264C34,242 5,227 3,200C-1,259 40,275 76,299M62,124C66,116 68,106 70,97C68,101 66,105 63,108C44,124 33,133 28,158L30,136C32,114 20,90 33,71C20,85 13,103 13,121C13,145 27,162 28,185C32,161 52,144 62,124M55,80C64,72 75,65 83,55C92,43 100,29 112,18C96,25 78,31 67,48C61,58 60,70 55,80M35,128C39,120 46,112 53,106C71,93 89,76 90,54C80,78 49,82 42,107C42,107 46,92 47,89C52,72 51,52 68,41C35,48 33,84 35,111C35,117 36,122 35,128M40,244C40,244 38,225 41,217C49,193 57,167 56,142C48,172 23,182 34,223C30,215 29,206 26,198C20,176 3,157 8,131C0,154 0,172 8,196C13,214 31,227 40,244" clip-rule="nonzero"/>
+                    </clipPath>
+                    <g clip-path="url(#_clip2)">
+                        <g transform="matrix(-0.24399,0,0,0.242106,477.526,16.6149)">
+                            <path d="M1516.68,1152.83C1525.32,1146.11 1534.14,1139.6 1543.2,1133.33C1473.53,1273.76 1448.94,1331.59 1334.18,1356.37C1334.18,1356.37 1366.97,1352.24 1383.36,1348.11C1506.32,1323.32 1653.86,1356.37 1744.03,1253.11C1707.14,1319.19 1637.47,1372.89 1571.89,1397.67C1465.33,1430.71 1354.67,1393.54 1256.31,1368.76C1244.01,1364.63 1227.62,1364.63 1211.22,1360.5C1268.6,1352.24 1321.88,1331.59 1362.87,1294.41C1413.74,1246.56 1459,1198.71 1510.26,1157.88L1523.45,1162.48L1516.68,1152.83Z"/>
+                        </g>
+                        <g transform="matrix(-0.24399,0,0,0.242106,477.526,16.6149)">
+                            <path d="M994,1399.51C919.363,1430.13 843.19,1505.16 776.778,1575.28C760.384,1562.89 748.088,1550.5 735.793,1538.11C795.327,1480.84 872.729,1421.76 957.381,1388.24C969.45,1383.46 981.667,1379.2 994,1375.53C1026.18,1365.98 1059.15,1360.5 1092.37,1360.5C1289.09,1360.5 1391.56,1533.98 1584.19,1418.32C1489.92,1533.98 1338.28,1542.24 1215.32,1463.76C1166.14,1430.71 1121.05,1385.28 1059.58,1385.28C1050,1385.28 1040.34,1386.3 1030.62,1388.24C1018.49,1390.65 1006.26,1394.48 994,1399.51Z"/>
+                        </g>
+                        <g transform="matrix(-0.24399,0,0,0.242106,477.526,16.6149)">
+                            <path d="M1461.23,1319.19C1539.11,1253.11 1551.4,1158.11 1584.19,1075.5C1604.68,1021.8 1641.57,976.369 1678.45,930.934C1629.27,1071.37 1657.96,1170.5 1539.11,1269.63C1559.6,1261.37 1580.09,1244.85 1596.48,1232.45C1690.75,1153.98 1830.1,1141.59 1887.48,1013.54C1871.09,1108.54 1797.31,1191.15 1719.44,1244.85C1641.57,1294.41 1543.2,1290.28 1461.23,1319.19Z"/>
+                        </g>
+                        <g transform="matrix(-0.24399,0,0,0.242106,477.526,16.6149)">
+                            <path d="M1645.67,1166.37C1645.67,1166.37 1670.26,1120.93 1678.45,1092.02C1707.14,980.499 1690.75,844.195 1739.93,736.805C1731.74,798.761 1756.33,852.456 1760.42,910.282C1768.62,988.76 1739.93,1042.45 1719.44,1079.63C1719.44,1079.63 1748.13,1042.45 1760.42,1021.8C1817.81,930.934 1936.66,868.978 1944.86,757.457C1961.25,1001.15 1793.21,1067.24 1645.67,1166.37Z"/>
+                        </g>
+                        <g transform="matrix(-0.24399,0,0,0.242106,477.526,16.6149)">
+                            <path d="M1793.21,939.195C1793.21,939.195 1801.41,860.717 1789.12,827.674C1756.33,728.544 1723.54,621.153 1727.64,517.893C1760.42,641.805 1862.89,683.109 1817.81,852.456C1834.2,819.413 1838.3,782.239 1850.59,749.196C1875.18,658.327 1944.86,579.849 1924.37,472.458C1957.15,567.458 1957.15,641.805 1924.37,740.935C1903.87,815.282 1830.1,868.978 1793.21,939.195Z"/>
+                        </g>
+                        <g transform="matrix(-0.24399,0,0,0.242106,477.526,16.6149)">
+                            <path d="M1703.05,443.545C1686.65,410.502 1678.45,369.198 1670.26,332.024C1678.45,348.545 1686.65,365.067 1698.95,377.458C1776.82,443.545 1821.9,480.719 1842.4,583.979L1834.2,493.11C1826,402.241 1875.18,303.111 1821.9,224.633C1875.18,282.459 1903.87,356.806 1903.87,431.154C1903.87,530.284 1846.49,600.501 1842.4,695.5C1826,596.37 1744.03,526.153 1703.05,443.545Z"/>
+                        </g>
+                        <g transform="matrix(-0.24399,0,0,0.242106,477.526,16.6149)">
+                            <path d="M1813.71,460.067C1797.31,427.023 1768.62,393.98 1739.93,369.198C1666.16,315.502 1592.39,245.285 1588.29,154.416C1629.27,253.546 1756.33,270.068 1785.02,373.328C1785.02,373.328 1768.62,311.372 1764.52,298.98C1744.03,228.763 1748.13,146.155 1678.45,100.72C1813.71,129.633 1821.9,278.328 1813.71,389.85C1813.71,414.632 1809.61,435.284 1813.71,460.067Z"/>
+                        </g>
+                        <g transform="matrix(-0.24399,0,0,0.242106,477.526,16.6149)">
+                            <path d="M1731.74,261.807C1694.85,228.763 1649.77,199.85 1616.98,158.546C1580.09,108.981 1547.3,51.155 1498.12,5.721C1563.7,34.634 1637.47,59.416 1682.55,129.633C1707.14,170.938 1711.24,220.503 1731.74,261.807Z"/>
+                        </g>
+                    </g>
+                </g>
+            </g>
+            <g>
+                <g transform="matrix(1.14752,-0.391211,0.396211,1.16218,-113.375,168.989)">
+                    <g class="star-shape"><path d="M302.194,411.083L334.389,512.916L438.572,512.916L354.286,575.852L386.481,677.684L302.194,614.748L217.908,677.684L250.102,575.852L165.816,512.916L270,512.916L302.194,411.083Z"/></g>
+                </g>
+                <g transform="matrix(0.745529,-1.01736,0.985486,0.722171,-186.13,924.137)">
+                    <g class="star-shape"><path d="M302.194,411.083L334.389,512.916L438.572,512.916L354.286,575.852L386.481,677.684L302.194,614.748L217.908,677.684L250.102,575.852L165.816,512.916L270,512.916L302.194,411.083Z"/></g>
+                </g>
+                <g transform="matrix(1.01801,-0.712759,0.696218,0.994385,293.807,815.548)">
+                    <g class="star-shape"><path d="M302.194,411.083L334.389,512.916L438.572,512.916L354.286,575.852L386.481,677.684L302.194,614.748L217.908,677.684L250.102,575.852L165.816,512.916L270,512.916L302.194,411.083Z"/></g>
+                </g>
+                <g transform="matrix(1.0102,-0.710687,0.719289,1.02243,696.272,29.6064)">
+                    <g class="star-shape"><path d="M302.194,411.083L334.389,512.916L438.572,512.916L354.286,575.852L386.481,677.684L302.194,614.748L217.908,677.684L250.102,575.852L165.816,512.916L270,512.916L302.194,411.083Z"/></g>
+                </g>
+                <g transform="matrix(1.29657,-0.000755217,0.000725171,1.24499,593.16,-452.958)">
+                    <g class="star-shape"><path d="M302.194,411.083L334.389,512.916L438.572,512.916L354.286,575.852L386.481,677.684L302.194,614.748L217.908,677.684L250.102,575.852L165.816,512.916L270,512.916L302.194,411.083Z"/></g>
+                </g>
+                <g transform="matrix(0.983968,-0.732376,0.752087,1.01045,-137.683,17.6335)">
+                    <g class="star-shape"><path d="M302.194,411.083L334.389,512.916L438.572,512.916L354.286,575.852L386.481,677.684L302.194,614.748L217.908,677.684L250.102,575.852L165.816,512.916L270,512.916L302.194,411.083Z"/></g>
+                </g>
+                <g transform="matrix(0.753002,-1.05648,1.01906,0.726328,751.098,625.466)">
+                    <g class="star-shape"><path d="M302.194,411.083L334.389,512.916L438.572,512.916L354.286,575.852L386.481,677.684L302.194,614.748L217.908,677.684L250.102,575.852L165.816,512.916L270,512.916L302.194,411.083Z"/></g>
+                </g>
+                <g transform="matrix(1.20253,-0.379081,0.381037,1.20874,779.485,474.233)">
+                    <g class="star-shape"><path d="M302.194,411.083L334.389,512.916L438.572,512.916L354.286,575.852L386.481,677.684L302.194,614.748L217.908,677.684L250.102,575.852L165.816,512.916L270,512.916L302.194,411.083Z"/></g>
+                </g>
+            </g>
+            <g transform="matrix(1.44158,0,0,1.35193,-529.228,-303.815)">
+                <g id="g-shape"><path d="M1163.67,533.035C1220.87,563.301 1264.22,616.226 1281.71,679.797L1134.62,679.797L1134.62,611.508L974.109,611.508L974.109,872.031L1134.62,872.031L1134.62,811.176L1060.6,811.176L1060.6,742.388L1134.62,742.388L1134.62,742.38L1290.16,742.38L1290.16,742.656C1290.16,833.184 1239.23,911.928 1164.46,951.859L941.048,951.859C866.272,911.928 815.349,833.184 815.349,742.656C815.349,651.812 866.628,572.834 941.832,533.035L1163.67,533.035Z"/></g>
+            </g>
+        </g>
+    </g>
+</svg>
+
+    </div>
+  </div>
+
+  <div class="controls">
+
+    <div class="control-block">
+      <div class="control-label">Background colour</div>
+      <div class="row">
+        <div class="swatches" id="bgSwatches"></div>
+        <input type="color" class="color-input" id="bgPicker" value="#ffffff" title="Custom background colour">
+      </div>
+    </div>
+
+    <div class="control-block">
+      <div class="control-label">Logo colour</div>
+      <div class="row">
+        <div class="swatches" id="fgSwatches"></div>
+        <input type="color" class="color-input" id="fgPicker" value="#000080" title="Custom logo colour">
+      </div>
+    </div>
+
+    <div class="control-block">
+      <div class="control-label">G size <span class="val" id="gSizeVal">100%</span></div>
+      <input type="range" id="gSizeSlider" min="80" max="120" value="100" step="1">
+    </div>
+
+    <div class="control-block">
+      <div class="control-label">Star size <span class="val" id="starSizeVal">100%</span></div>
+      <input type="range" id="starSizeSlider" min="80" max="120" value="100" step="1">
+    </div>
+
+    <button id="saveBtn">Save as JPEG</button>
+    <div id="hint"></div>
+  </div>
+
+  <div id="outputWrap">
+    <img id="outputImg" alt="Result">
+    <br>
+    <button id="closeOutput">Close</button>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  const stage = document.getElementById('stage');
+  const svg = document.getElementById('logoSvg');
+  const bgPicker = document.getElementById('bgPicker');
+  const fgPicker = document.getElementById('fgPicker');
+  const bgSwatchesEl = document.getElementById('bgSwatches');
+  const fgSwatchesEl = document.getElementById('fgSwatches');
+  const gSlider = document.getElementById('gSizeSlider');
+  const starSlider = document.getElementById('starSizeSlider');
+  const gSizeVal = document.getElementById('gSizeVal');
+  const starSizeVal = document.getElementById('starSizeVal');
+  const saveBtn = document.getElementById('saveBtn');
+  const hint = document.getElementById('hint');
+  const outputWrap = document.getElementById('outputWrap');
+  const outputImg = document.getElementById('outputImg');
+  const closeOutput = document.getElementById('closeOutput');
+
+  const VB_W = 2860, VB_H = 2421;
+  const G_CX = 1052.7545, G_CY = 742.447;
+  const STAR_CX = 302.194, STAR_CY = 544.3835;
+
+  function scaleTransform(cx, cy, s){
+    return 'translate(' + cx + ',' + cy + ') scale(' + s + ') translate(' + (-cx) + ',' + (-cy) + ')';
+  }
+
+  const bgPresets = ['#ffffff','#f4f4f4','#000000','#c8102e','#2e8b57','#87ceeb'];
+  const fgPresets = ['#000080','#ffffff','#000000','#ffd700','#c8102e','#2e8b57'];
+
+  function buildSwatches(container, colors, onPick){
+    colors.forEach(function(c){
+      const sw = document.createElement('button');
+      sw.className = 'swatch';
+      sw.style.background = c;
+      sw.dataset.color = c;
+      sw.addEventListener('click', function(){ onPick(c); });
+      container.appendChild(sw);
+    });
+  }
+
+  function setBg(c){
+    stage.style.background = c;
+    bgPicker.value = c;
+    document.querySelectorAll('#bgSwatches .swatch').forEach(function(sw){
+      sw.classList.toggle('selected', sw.dataset.color.toLowerCase() === c.toLowerCase());
+    });
+  }
+  function setFg(c){
+    svg.style.fill = c;
+    fgPicker.value = c;
+    document.querySelectorAll('#fgSwatches .swatch').forEach(function(sw){
+      sw.classList.toggle('selected', sw.dataset.color.toLowerCase() === c.toLowerCase());
+    });
+  }
+
+  buildSwatches(bgSwatchesEl, bgPresets, setBg);
+  buildSwatches(fgSwatchesEl, fgPresets, setFg);
+
+  bgPicker.addEventListener('input', function(){ setBg(bgPicker.value); });
+  fgPicker.addEventListener('input', function(){ setFg(fgPicker.value); });
+
+  setBg('#ffffff');
+  setFg('#000080');
+
+  function updateGSize(){
+    const s = parseInt(gSlider.value, 10) / 100;
+    gSizeVal.textContent = gSlider.value + '%';
+    const g = document.getElementById('g-shape');
+    if(g) g.setAttribute('transform', scaleTransform(G_CX, G_CY, s));
+  }
+  function updateStarSize(){
+    const s = parseInt(starSlider.value, 10) / 100;
+    starSizeVal.textContent = starSlider.value + '%';
+    const t = scaleTransform(STAR_CX, STAR_CY, s);
+    document.querySelectorAll('.star-shape').forEach(function(el){
+      el.setAttribute('transform', t);
+    });
+  }
+  gSlider.addEventListener('input', updateGSize);
+  starSlider.addEventListener('input', updateStarSize);
+  updateGSize();
+  updateStarSize();
+
+  function isIOS(){
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  }
+
+  saveBtn.addEventListener('click', function(){
+    hint.textContent = 'Rendering…';
+    saveBtn.disabled = true;
+
+    const svgClone = svg.cloneNode(true);
+    svgClone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    svgClone.style.width = VB_W + 'px';
+    svgClone.style.height = VB_H + 'px';
+    svgClone.setAttribute('width', VB_W);
+    svgClone.setAttribute('height', VB_H);
+
+    const svgString = new XMLSerializer().serializeToString(svgClone);
+    const svgBlob = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'});
+    const url = URL.createObjectURL(svgBlob);
+
+    const img = new Image();
+    img.onload = function(){
+      const canvas = document.createElement('canvas');
+      canvas.width = VB_W;
+      canvas.height = VB_H;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = bgPicker.value;
+      ctx.fillRect(0, 0, VB_W, VB_H);
+      ctx.drawImage(img, 0, 0, VB_W, VB_H);
+      URL.revokeObjectURL(url);
+
+      canvas.toBlob(function(blob){
+        const jpegUrl = URL.createObjectURL(blob);
+
+        if(isIOS()){
+          outputImg.src = jpegUrl;
+          outputWrap.classList.add('show');
+          hint.textContent = 'Tap and hold the image, then choose "Add to Photos" or "Save Image".';
+        } else {
+          const a = document.createElement('a');
+          a.href = jpegUrl;
+          a.download = 'oscar-g-logo.jpg';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          hint.textContent = 'Saved.';
+        }
+        saveBtn.disabled = false;
+      }, 'image/jpeg', 0.95);
+    };
+    img.onerror = function(){
+      hint.textContent = 'Something went wrong rendering the image.';
+      saveBtn.disabled = false;
+    };
+    img.src = url;
+  });
+
+  closeOutput.addEventListener('click', function(){
+    outputWrap.classList.remove('show');
+    hint.textContent = '';
+  });
+
+})();
+</script>
+</body>
+</html>
